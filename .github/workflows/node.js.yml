@@ -38,6 +38,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+      - run: npm install
       - run: npm run coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
