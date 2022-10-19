@@ -37,5 +37,8 @@
   },
   "dependencies": {
     "chokidar": "3.5.3"
+  },
+  "engines": {
+    "node": ">=14.20"
   }
 }

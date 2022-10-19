@@ -24,7 +24,15 @@ describe("watch files", () => {
       ejected: 0,
       errors: 0,
     });
+
     assert.equal(w.get(p), undefined);
+    assert.deepEqual(w.stats, {
+      size: 0,
+      hits: 0,
+      misses: 1,
+      ejected: 0,
+      errors: 0,
+    });
 
     w.set(p, "1");
     assert.deepEqual(w.stats, {
@@ -44,8 +52,8 @@ describe("watch files", () => {
       errors: 0,
     });
 
+    // No way to tell which of these will finish first.
     await Promise.all([fs.writeFile(p, "there"), waitForEvent(w, "all")]);
-
     assert.deepEqual(w.stats, {
       size: 0,
       hits: 1,
@@ -58,7 +66,6 @@ describe("watch files", () => {
     assert.equal(w.get(p), "2");
 
     await Promise.all([fs.unlink(p), waitForEvent(w, "all")]);
-
     assert.deepEqual(w.stats, {
       size: 0,
       hits: 2,

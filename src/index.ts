@@ -72,8 +72,8 @@ export class WatchFileCache<T> {
    */
   public get stats(): Stats {
     return {
-      size: this._cache.size,
       ...this._stats,
+      size: this._cache.size,
     };
   }
 
@@ -106,14 +106,30 @@ export class WatchFileCache<T> {
     return this;
   }
 
+  /**
+   * Delete info in the cache associated with this file, and stop watching for
+   * changes to that file.
+   *
+   * @param path The file path associated with the info.
+   * @returns true if an element in the cache existed and has been removed, or
+   * false if the element did not exist.
+   */
   public delete(path: string): boolean {
     this._watcher.unwatch(path);
     return this._cache.delete(path);
   }
 
+  /**
+   * Clear all information from the cache, stop watching all current files,
+   * and reset all statistics to zero. Note: this is async because
+   * unregistering the file watchers might take some time.
+   *
+   * @returns this, for chaining.
+   */
   public async clear(): Promise<this> {
     await this._watcher.close();
     this._cache.clear();
+    // `close` invalidates the old watcher
     this._watcher = new FSWatcher(this._options);
     this._stats = { ...zeroStats };
     return this;
