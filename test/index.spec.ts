@@ -93,7 +93,10 @@ describe("watch files", () => {
       await fs.symlink(j, k);
       await fs.unlink(j);
       await fs.symlink(k, j);
-      const w = new WatchFileCache<string>();
+      let e: Error | undefined = undefined;
+      const w = new WatchFileCache<string>({
+        onError(er: Error): void { e = er; },
+      });
       await Promise.all([w.set(j, "stuff"), waitForEvent(w, "error")]);
       assert.deepEqual(w.stats, {
         size: 1,
@@ -102,6 +105,7 @@ describe("watch files", () => {
         ejected: 0,
         errors: 1,
       });
+      assert.isNotNull(e);
       w.delete(j);
     } finally {
       // Make sure to clean it up!

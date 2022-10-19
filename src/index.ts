@@ -32,6 +32,10 @@ const zeroStats: Omit<Stats, "size"> = {
   errors: 0,
 };
 
+export interface CacheOptions {
+  onError?(err: Error): void;
+}
+
 /**
  * Create a cache of information associated with files.  Whenever the file
  * changes, the corresponding cache entry will be invalidated.
@@ -41,7 +45,7 @@ export class WatchFileCache<T> {
 
   private _watcher: FSWatcher;
 
-  private _options: WatchOptions;
+  private _options: CacheOptions & WatchOptions;
 
   private _stats: Omit<Stats, "size"> = { ...zeroStats };
 
@@ -51,7 +55,7 @@ export class WatchFileCache<T> {
    * @param options Chokidar options for file watching.  Any value provided
    * for `ignoreInitial` and `disableGlobbing` will be overwritten.
    */
-  public constructor(options?: WatchOptions) {
+  public constructor(options?: CacheOptions & WatchOptions) {
     this._options = {
       ...options,
       ignoreInitial: true,
@@ -62,8 +66,11 @@ export class WatchFileCache<T> {
       this.delete(path);
       this._stats.ejected++;
     });
-    this._watcher.on("error", () => {
+    this._watcher.on("error", (e: Error) => {
       this._stats.errors++;
+      if (typeof this._options.onError === "function") {
+        this._options.onError.call(this, e);
+      }
     });
   }
 
