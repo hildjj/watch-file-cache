@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     // "inlineSourceMap": true,
-    "module": "node16",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noImplicitReturns": true,

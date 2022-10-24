@@ -4,7 +4,8 @@ module.exports = {
   diff: true,
   "full-trace": true,
   recursive: true,
-  reporter: "progress",
-  require: "ts-node/register",
-  spec: "test/**/*.spec.ts"
+  reporter: "spec",
+  loader: "ts-node/esm",
+  spec: "test/**/*.spec.ts",
+  timeout: 10000,
 };
