@@ -1,9 +1,10 @@
-import { assert, default as chai } from "chai";
+import * as chai from "chai";
 import { WatchFileCache } from "../lib/index.js";
 import chaiAsPromised from "chai-as-promised";
 import { promises as fs } from "fs";
 import path from "path";
 
+const { assert } = chai;
 chai.use(chaiAsPromised);
 
 function tempFile(name: string): string {
@@ -43,7 +44,7 @@ describe("watch files", () => {
     });
   });
 
-  it("maintains state", async() => {
+  it("maintains state", async () => {
     const w = new WatchFileCache<Date>();
     const p = tempFile("state");
     const d = new Date();
@@ -69,7 +70,7 @@ describe("watch files", () => {
     await fs.unlink(p);
   });
 
-  it("ejects on change", async() => {
+  it("ejects on change", async () => {
     const w = new WatchFileCache<Date>();
     const p = tempFile("change");
 
@@ -108,7 +109,7 @@ describe("watch files", () => {
     await fs.unlink(p);
   });
 
-  it("ejects on unlink", async() => {
+  it("ejects on unlink", async () => {
     const w = new WatchFileCache<Date>();
     const p = tempFile("unlink");
 
@@ -145,7 +146,7 @@ describe("watch files", () => {
     await w.close();
   });
 
-  it("allows update", async() => {
+  it("allows update", async () => {
     const w = new WatchFileCache<Date>();
     const p = tempFile("update");
 
@@ -183,7 +184,7 @@ describe("watch files", () => {
     await fs.unlink(p);
   });
 
-  it("clears open watches", async() => {
+  it("clears open watches", async () => {
     const w = new WatchFileCache<Date>();
     const p = tempFile("clear");
 
@@ -201,7 +202,7 @@ describe("watch files", () => {
     await fs.unlink(p);
   });
 
-  it("handles errors", async() => {
+  it("handles errors", async () => {
     const w = new WatchFileCache<string>();
     const p = tempFile("errors");
 
