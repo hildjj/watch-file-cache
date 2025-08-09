@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14, 16, 18]
+        node-version: [20, 22, 24]
         platform: [ubuntu-latest, macos-latest, windows-latest]
 
     runs-on: ${{ matrix.platform }}
@@ -22,17 +22,20 @@ jobs:
       OS: ${{ matrix.os }}
       NODE: ${{ matrix.node-version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm ci
+          cache: pnpm
+      - run: pnpm i
       - run: npm run coverage
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage/lcov.info
           env_vars: OS,NODE
           name: codecov-umbrella

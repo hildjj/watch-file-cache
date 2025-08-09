@@ -5,7 +5,7 @@
     ".mocharc.cjs"
   ],
   "reporter": [
-    "lcov",
-    "text"
+    "text",
+    "lcov"
   ]
 }

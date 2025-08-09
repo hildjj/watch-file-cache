@@ -16,7 +16,7 @@ interface Entry<T> {
 }
 
 /** Statistics */
-interface Stats {
+export interface Stats {
   /**
    * Number of items currently in the cache.
    */
@@ -200,6 +200,7 @@ export class WatchFileCache<T> extends EventEmitter {
    * @param watcher The FSWatcher to close.
    * @returns Nothing interesting.
    */
+  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   private _closeWatcher(watcher: FSWatcher): Promise<any[]> {
     const closed = waitEvent(watcher, "close");
     watcher.close();

@@ -1,11 +1,11 @@
 "use strict";
 
+/** @type {import("mocha")} */
 module.exports = {
-  diff: true,
+  "diff": true,
   "full-trace": true,
-  recursive: true,
-  reporter: "spec",
-  loader: "ts-node/esm",
-  spec: "test/**/*.spec.ts",
-  timeout: 10000,
+  "recursive": true,
+  "reporter": "spec",
+  "spec": "test/**/*.spec.ts",
+  "timeout": 10000,
 };
