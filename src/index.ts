@@ -61,9 +61,6 @@ function waitEvent(emitter: EventEmitter, eventName: string): Promise<any[]> {
  */
 export class WatchFileCache<T> extends EventEmitter {
   private _cache = new Map<string, Entry<T>>();
-
-  private _watcher: FSWatcher | undefined = undefined;
-
   private _stats: Omit<Stats, "size"> = { ...zeroStats };
 
   /**
