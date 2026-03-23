@@ -206,6 +206,7 @@ describe("watch files", () => {
     const w = new WatchFileCache<string>();
     const p = tempFile("errors");
 
+    // eslint-disable-next-line @typescript-eslint/strict-void-return
     assert.throws(() => w.set(p, "does not exist"));
     assert.deepEqual(w.stats, {
       size: 0,
